@@ -1,0 +1,9 @@
+{
+	"name": "ioannadatafactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6699fb11-7b8d-40f0-b8cd-95679b020e20",
+		"tenantId": "e731159c-4162-40b6-b3da-d91af3266208"
+	}
+}
