@@ -1,0 +1,104 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ioannadatafactory"
+		},
+		"GitHub1_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'GitHub1'"
+		},
+		"ls_Azure_Data_Lake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_Azure_Data_Lake'"
+		},
+		"ls_Azure_SQLDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_Azure_SQLDB'"
+		},
+		"ls_Azure_Synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_Azure_Synapse'"
+		},
+		"GitHub1_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "sqladminuser"
+		},
+		"ls_Azure_Data_Lake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ioannastorage.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ioannadatafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"GitHub1_credential": {
+						"value": "[parameters('GitHub1_credential')]"
+					},
+					"ls_Azure_Data_Lake_accountKey": {
+						"value": "[parameters('ls_Azure_Data_Lake_accountKey')]"
+					},
+					"ls_Azure_SQLDB_connectionString": {
+						"value": "[parameters('ls_Azure_SQLDB_connectionString')]"
+					},
+					"ls_Azure_Synapse_connectionString": {
+						"value": "[parameters('ls_Azure_Synapse_connectionString')]"
+					},
+					"GitHub1_properties_typeProperties_username": {
+						"value": "[parameters('GitHub1_properties_typeProperties_username')]"
+					},
+					"ls_Azure_Data_Lake_properties_typeProperties_url": {
+						"value": "[parameters('ls_Azure_Data_Lake_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "ioannadatafactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ioannadatafactory_ArmTemplate_0')]"
+			]
+		}
+	]
+}
